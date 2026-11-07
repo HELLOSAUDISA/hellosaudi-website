@@ -1,0 +1,9 @@
+{
+  "name": "HelloSaudi",
+  "short_name": "HelloSaudi",
+  "start_url": "/en/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#075b3b",
+  "icons": [{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml"}]
+}
