@@ -1,0 +1,14 @@
+---
+const { article, lang='en', featured=false } = Astro.props;
+const [title, desc, category, slug] = article;
+const categoryLabels = {government: lang==='ml'?'സർക്കാർ സേവനങ്ങൾ':lang==='ar'?'الخدمات الحكومية':'Government', iqama:lang==='ml'?'ഇഖാമ':lang==='ar'?'الإقامة':'Iqama', 'gold-silver':lang==='ml'?'സ്വർണ്ണം & വെള്ളി':lang==='ar'?'الذهب والفضة':'Gold & Silver', 'visa-travel':lang==='ml'?'വിസ & യാത്ര':lang==='ar'?'التأشيرات والسفر':'Visa & Travel'};
+---
+<article class:list={['article-card',{featured}]}>
+  <div class="article-art" aria-hidden="true"><span>{category==='gold-silver'?'◈':category==='visa-travel'?'✈':category==='iqama'?'▣':'⌘'}</span></div>
+  <div class="article-copy">
+    <span class="eyebrow">{categoryLabels[category] || category}</span>
+    <h3><a href={`/${lang}/blog/${slug}/`}>{title}</a></h3>
+    <p>{desc}</p>
+    <a class="text-link" href={`/${lang}/blog/${slug}/`}>{lang==='ml'?'കൂടുതൽ വായിക്കുക':lang==='ar'?'اقرأ المزيد':'Read guide'} <span aria-hidden="true">→</span></a>
+  </div>
+</article>

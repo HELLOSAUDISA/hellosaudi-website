@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'; import Header from '../../components/Header.astro'; import Footer from '../../components/Footer.astro'; import {locales} from '../../data/site.js';
+export function getStaticPaths(){return Object.keys(locales).map(lang=>({params:{lang},props:{t:locales[lang]}}));}
+const {t}=Astro.props; const lang=Astro.params.lang;
+---
+<BaseLayout title={`Contact | HelloSaudi`} description="Contact the HelloSaudi editorial team." lang={lang} dir={t.dir}><Header lang={lang} t={t}/><main class="page-main"><div class="container narrow"><span class="eyebrow">HELLOSAUDI</span><h1>{lang==='ar'?'اتصل بنا':lang==='ml'?'ബന്ധപ്പെടുക':'Contact us'}</h1><p class="lead">{lang==='ar'?'للاستفسارات والتصحيحات والاقتراحات، يرجى التواصل مع فريق HelloSaudi.':lang==='ml'?'ചോദ്യങ്ങൾക്കും തിരുത്തലുകൾക്കും നിർദ്ദേശങ്ങൾക്കും HelloSaudi ടീമുമായി ബന്ധപ്പെടുക.':'For questions, corrections or suggestions, please contact the HelloSaudi team.'}</p><p>Contact email: <strong>Replace-with-your-contact-email</strong></p><p class="fine-print">Before launch, replace the placeholder above with an email address you control.</p></div></main><Footer t={t} lang={lang}/></BaseLayout>

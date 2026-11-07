@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { locales, categoryIcons } from '../../data/site.js';
+export function getStaticPaths(){ return Object.keys(locales).map(lang=>({params:{lang},props:{t:locales[lang]}})); }
+const { t } = Astro.props;
+const lang = Astro.params.lang;
+const isAr = lang==='ar';
+---
+<BaseLayout title={`HelloSaudi – ${t.tagline}`} description={t.heroText} lang={lang} dir={t.dir}>
+  <Header lang={lang} t={t}/>
+  <main>
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow hero-eyebrow">{lang==='ml'?'സൗദി അറേബ്യയിലേക്കുള്ള നിങ്ങളുടെ ഗൈഡ്':lang==='ar'?'دليلك إلى المملكة العربية السعودية':'YOUR SAUDI ARABIA RESOURCE'}</span>
+          <h1>{t.heroTitle}</h1>
+          <p>{t.heroText}</p>
+          <form class="search-form" data-search-form data-search-base={`/${lang}/blog/`}>
+            <span aria-hidden="true">⌕</span><input aria-label={t.search} placeholder={t.search}/><button type="submit">{lang==='ar'?'بحث':lang==='ml'?'തിരയുക':'Search'}</button>
+          </form>
+          <div class="popular-search"><strong>{t.popular}:</strong> {t.quick.map((q,i)=><a href={i===2?`/${lang}/gold-silver/`:`/${lang}/government/`}>{q}</a>)}</div>
+        </div>
+        <div class="hero-art">
+          <div class="hero-sun"></div><div class="skyline"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="hero-caption"><strong>Saudi Arabia</strong><small>Explore. Understand. Discover.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section rates-section">
+      <div class="container">
+        <div class="section-heading"><div><span class="eyebrow">{lang==='ml'?'വില വിവരങ്ങൾ':lang==='ar'?'معلومات الأسعار':'MARKET INFORMATION'}</span><h2>{t.rates}</h2><p>{t.ratesText}</p></div><a class="text-link" href={`/${lang}/gold-silver/`}>{lang==='ar'?'عرض الأسعار':lang==='ml'?'വിലകൾ കാണുക':'View rates'} →</a></div>
+        <div class="rate-preview-grid">
+          <a class="rate-preview" href="/tools/#gold"><span class="rate-icon">Au</span><span><strong>{lang==='ar'?'أسعار الذهب':lang==='ml'?'സ്വർണ്ണവില':'Gold prices'}</strong><small>24K · 22K · 21K · 18K</small></span><b>↗</b></a>
+          <a class="rate-preview" href="/tools/#silver"><span class="rate-icon silver">Ag</span><span><strong>{lang==='ar'?'أسعار الفضة':lang==='ml'?'വെള്ളിവില':'Silver prices'}</strong><small>999 · 958 · 925 · 800</small></span><b>↗</b></a>
+          <a class="rate-preview" href="/tools/#currency"><span class="rate-icon currency">↔</span><span><strong>{lang==='ar'?'أسعار العملات':lang==='ml'?'കറൻസി നിരക്കുകൾ':'Currency rates'}</strong><small>SAR exchange rates</small></span><b>↗</b></a>
+          <a class="rate-preview" href="/tools/#fuel"><span class="rate-icon fuel">⛽</span><span><strong>{lang==='ar'?'أسعار الوقود':lang==='ml'?'ഇന്ധന വില':'Fuel prices'}</strong><small>Petrol · Diesel · LPG</small></span><b>↗</b></a>
+        </div>
+        <p class="fine-print">{t.disclaimer}</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading"><div><span class="eyebrow">{lang==='ar'?'المواضيع':'BROWSE BY TOPIC'}</span><h2>{t.explore}</h2></div><a class="text-link" href={`/${lang}/saudi-guide/`}>{t.viewAll} →</a></div>
+        <div class="category-grid">
+          {t.categories.map((c,i)=><a class="category-card" href={`/${lang}/${c[2]}/`}><span class="category-icon">{['⌘','▣','✈','▤','⌂','◷'][i]}</span><strong>{c[0]}</strong><p>{c[1]}</p><span class="category-arrow">↗</span></a>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section latest-section">
+      <div class="container">
+        <div class="section-heading"><div><span class="eyebrow">{lang==='ar'?'أدلة عملية':'LEARN SOMETHING USEFUL'}</span><h2>{t.latest}</h2></div><a class="text-link" href={`/${lang}/blog/`}>{t.viewAll} →</a></div>
+        <div class="article-grid">{t.articles.map((a,i)=><ArticleCard article={a} lang={lang} featured={i===0}/>)}</div>
+      </div>
+    </section>
+
+    <section class="about-band"><div class="container about-inner"><div><span class="eyebrow">{t.about}</span><h2>{t.tagline}</h2><p>{t.aboutText}</p></div><a class="button button-light" href={`/${lang}/about/`}>{lang==='ar'?'اعرف المزيد':lang==='ml'?'കൂടുതൽ അറിയുക':'Learn more'} →</a></div></section>
+  </main>
+  <Footer t={t} lang={lang}/>
+</BaseLayout>

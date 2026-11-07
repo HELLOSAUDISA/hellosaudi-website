@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'; import Header from '../../components/Header.astro'; import Footer from '../../components/Footer.astro'; import {locales} from '../../data/site.js';
+export function getStaticPaths(){return Object.keys(locales).map(lang=>({params:{lang},props:{t:locales[lang]}}));}
+const {t}=Astro.props; const lang=Astro.params.lang;
+---
+<BaseLayout title="Privacy Policy | HelloSaudi" description="HelloSaudi privacy policy." lang={lang} dir={t.dir}><Header lang={lang} t={t}/><main class="page-main"><div class="container narrow"><span class="eyebrow">LEGAL</span><h1>{lang==='ar'?'سياسة الخصوصية':lang==='ml'?'സ്വകാര്യതാ നയം':'Privacy policy'}</h1><p class="lead">This page is a starter policy template and must be reviewed and completed before launch.</p><h2>Information and analytics</h2><p>Describe the analytics, cookies, hosting logs, contact information and any other data collected by the live website. Do not claim that no data is collected unless verified.</p><h2>Third-party services</h2><p>List any external services, advertising providers, analytics tools and rate data providers used by the site.</p><h2>Contact</h2><p>Provide a working privacy contact address before publishing.</p></div></main><Footer t={t} lang={lang}/></BaseLayout>

@@ -1,0 +1,14 @@
+---
+const { t, lang='en' } = Astro.props;
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-about">
+      <a class="brand footer-brand" href={`/${lang}/`}><span class="brand-mark">H</span><span><strong>HelloSaudi</strong><small>SAUDI ARABIA GUIDE</small></span></a>
+      <p>{t.aboutText}</p>
+    </div>
+    <div><h3>{lang==='ar'?'روابط مفيدة':lang==='ml'?'പ്രധാന ലിങ്കുകൾ':'Explore'}</h3><a href={`/${lang}/government/`}>{t.nav[2]}</a><a href={`/${lang}/gold-silver/`}>{t.nav[3]}</a><a href={`/${lang}/blog/`}>{t.nav[5]}</a></div>
+    <div><h3>{lang==='ar'?'معلومات':lang==='ml'?'വിവരങ്ങൾ':'Information'}</h3><a href={`/${lang}/about/`}>{lang==='ar'?'من نحن':lang==='ml'?'ഞങ്ങളെക്കുറിച്ച്':'About'}</a><a href={`/${lang}/contact/`}>{lang==='ar'?'اتصل بنا':lang==='ml'?'ബന്ധപ്പെടുക':'Contact'}</a><a href={`/${lang}/privacy/`}>{lang==='ar'?'الخصوصية':lang==='ml'?'സ്വകാര്യത':'Privacy policy'}</a><a href={`/${lang}/disclaimer/`}>{lang==='ar'?'إخلاء المسؤولية':lang==='ml'?'നിരാകരണം':'Disclaimer'}</a></div>
+  </div>
+  <div class="container footer-bottom"><span>© {new Date().getFullYear()} HelloSaudi.sa</span><span>{t.disclaimer}</span></div>
+</footer>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import { locales } from '../../../data/site.js';
+export function getStaticPaths(){return Object.keys(locales).map(lang=>({params:{lang},props:{t:locales[lang]}}));}
+const {t}=Astro.props; const lang=Astro.params.lang;
+---
+<BaseLayout title={`${t.nav[5]} | HelloSaudi`} description={t.latest} lang={lang} dir={t.dir}>
+<Header lang={lang} t={t}/>
+<main class="page-main"><div class="container">
+  <div class="page-intro"><span class="eyebrow">HELLOSAUDI JOURNAL</span><h1>{t.latest}</h1><p>{t.heroText}</p></div>
+  <div class="article-grid">{t.articles.map(a=><ArticleCard article={a} lang={lang}/>)}</div>
+</div></main>
+<Footer t={t} lang={lang}/>
+</BaseLayout>

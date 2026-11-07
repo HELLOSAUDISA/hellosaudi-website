@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { locales } from '../../../data/site.js';
+const extra = {
+  'sim-cards-on-iqama': {
+    en: ['How to Check SIM Cards Registered on Your Iqama','Use the relevant official telecom service to review mobile numbers registered under your identity. Always follow the current instructions shown by the service provider.'],
+    ml: ['നിങ്ങളുടെ ഇഖാമയിൽ രജിസ്റ്റർ ചെയ്ത SIM കാർഡുകൾ എങ്ങനെ പരിശോധിക്കാം?','നിങ്ങളുടെ ഐഡന്റിറ്റിയിൽ രജിസ്റ്റർ ചെയ്ത മൊബൈൽ നമ്പറുകൾ പരിശോധിക്കാൻ ബന്ധപ്പെട്ട ഔദ്യോഗിക ടെലികോം സേവനം ഉപയോഗിക്കുക. സേവനദാതാവിന്റെ നിലവിലെ നിർദ്ദേശങ്ങൾ പിന്തുടരുക.'],
+    ar: ['كيفية التحقق من شرائح SIM المسجلة على الإقامة','استخدم خدمة الاتصالات الرسمية ذات الصلة لمراجعة أرقام الجوال المسجلة بهويتك، واتبع التعليمات الحالية لمزود الخدمة.']
+  },
+  'check-iqama-expiry': {
+    en: ['How to Check Your Iqama Expiry Date','Learn where to verify your residency validity and how to confirm the information through official Saudi channels.'],
+    ml: ['ഇഖാമ കാലാവധി എങ്ങനെ പരിശോധിക്കാം?','ഔദ്യോഗിക സൗദി ചാനലുകൾ വഴി നിങ്ങളുടെ താമസാനുമതിയുടെ കാലാവധി എങ്ങനെ പരിശോധിക്കാമെന്ന് മനസ്സിലാക്കാം.'],
+    ar: ['كيفية التحقق من تاريخ انتهاء الإقامة','تعرف على كيفية التحقق من صلاحية الإقامة عبر القنوات السعودية الرسمية.']
+  },
+  'gold-prices-guide': {
+    en: ['Understanding Gold Prices in Saudi Arabia','Gold prices vary by purity, market movements, currency and retailer charges. Learn the difference between the quoted metal rate and the final jewellery price.'],
+    ml: ['സൗദി അറേബ്യയിലെ സ്വർണ്ണവില മനസ്സിലാക്കാം','സ്വർണ്ണത്തിന്റെ കാരറ്റ്, വിപണി മാറ്റങ്ങൾ, കറൻസി, കടയുടെ ചാർജുകൾ എന്നിവ അനുസരിച്ച് വില മാറാം.'],
+    ar: ['فهم أسعار الذهب في السعودية','تختلف أسعار الذهب حسب العيار وحركة السوق والعملة ورسوم المتجر. تعرف على الفرق بين سعر المعدن وسعر المجوهرات النهائي.']
+  },
+  'family-visit-visa-guide': {
+    en: ['Family Visit Visa: Checks Before You Apply','Prepare by reviewing the current eligibility, required documents, official application channel and status-checking process.'],
+    ml: ['ഫാമിലി വിസ: അപേക്ഷിക്കുന്നതിന് മുമ്പ് പരിശോധിക്കേണ്ട കാര്യങ്ങൾ','യോഗ്യത, ആവശ്യമായ രേഖകൾ, ഔദ്യോഗിക അപേക്ഷാ മാർഗം, സ്റ്റാറ്റസ് പരിശോധിക്കുന്ന രീതി എന്നിവ ആദ്യം ഉറപ്പാക്കുക.'],
+    ar: ['تأشيرة الزيارة العائلية: ما يجب التحقق منه قبل التقديم','راجع شروط الأهلية والمستندات المطلوبة وقناة التقديم الرسمية وطريقة متابعة الطلب.']
+  }
+};
+export function getStaticPaths(){
+  return Object.keys(locales).flatMap(lang=>locales[lang].articles.map(a=>({params:{lang,slug:a[3]},props:{t:locales[lang],article:a,lang}})));
+}
+const {t,article,lang}=Astro.props;
+const data=extra[article[3]]?.[lang] || [article[0],article[1]];
+const [title,intro]=data;
+const faq = lang==='ml' ? ['ഔദ്യോഗിക വെബ്സൈറ്റ് എവിടെ കണ്ടെത്താം?','ഏറ്റവും പുതിയ നിർദ്ദേശങ്ങൾ എങ്ങനെ ഉറപ്പാക്കാം?'] : lang==='ar' ? ['أين أجد الموقع الرسمي؟','كيف أتحقق من أحدث التعليمات؟'] : ['Where can I find the official website?','How do I confirm the latest instructions?'];
+---
+<BaseLayout title={`${title} | HelloSaudi`} description={intro} lang={lang} dir={t.dir}>
+<Header lang={lang} t={t}/>
+<main class="page-main"><div class="container article-layout">
+  <article class="article-body">
+    <div class="breadcrumbs"><a href={`/${lang}/`}>{t.nav[0]}</a> / <a href={`/${lang}/blog/`}>{t.nav[5]}</a> / {title}</div>
+    <span class="eyebrow">HELLOSAUDI GUIDE</span><h1>{title}</h1><p class="article-meta">HelloSaudi Editorial Team · Practical guide · {lang==='ar'?'معلومات عامة':lang==='ml'?'പ്രായോഗിക ഗൈഡ്':'General information'}</p>
+    <div class="article-hero-art"><span>HELLOSAUDI</span></div>
+    <p class="lead">{intro}</p>
+    <div class="notice"><strong>{lang==='ar'?'ملاحظة مهمة':lang==='ml'?'പ്രധാന കുറിപ്പ്':'Important note'}</strong><p>{t.disclaimer}</p></div>
+    <h2>{lang==='ar'?'قبل البدء':lang==='ml'?'ആരംഭിക്കുന്നതിന് മുമ്പ്':'Before you begin'}</h2>
+    <p>{lang==='ar'?'استخدم القنوات الرسمية فقط، ولا تشارك كلمات المرور أو رموز التحقق أو البيانات الشخصية مع أي جهة غير موثوقة.':lang==='ml'?'ഔദ്യോഗിക വെബ്സൈറ്റുകൾ മാത്രം ഉപയോഗിക്കുക. പാസ്‌വേഡുകൾ, OTP, വ്യക്തിഗത വിവരങ്ങൾ എന്നിവ വിശ്വസനീയമല്ലാത്തവരുമായി പങ്കിടരുത്.':'Use official websites and services only. Never share passwords, one-time passcodes or sensitive personal information with untrusted parties.'}</p>
+    <h2>{lang==='ar'?'خطوات عامة':lang==='ml'?'പൊതുവായ ഘട്ടങ്ങൾ':'General steps'}</h2>
+    <ol class="steps">
+      <li><strong>{lang==='ar'?'افتح الموقع الرسمي':lang==='ml'?'ഔദ്യോഗിക വെബ്സൈറ്റ് തുറക്കുക':'Open the official website'}</strong><p>{lang==='ar'?'تحقق من عنوان الموقع قبل إدخال أي معلومات.':lang==='ml'?'വിവരങ്ങൾ നൽകുന്നതിന് മുമ്പ് വെബ്സൈറ്റ് വിലാസം പരിശോധിക്കുക.':'Check the website address before entering any information.'}</p></li>
+      <li><strong>{lang==='ar'?'اتبع التعليمات الحالية':lang==='ml'?'നിലവിലെ നിർദ്ദേശങ്ങൾ പിന്തുടരുക':'Follow the current instructions'}</strong><p>{lang==='ar'?'قد تتغير خطوات الخدمة؛ اتبع ما يظهر في البوابة الرسمية.':lang==='ml'?'സേവനത്തിന്റെ ഘട്ടങ്ങൾ മാറാം; ഔദ്യോഗിക പോർട്ടലിലെ നിർദ്ദേശങ്ങൾ പിന്തുടരുക.':'Service steps may change; follow the instructions displayed on the official portal.'}</p></li>
+      <li><strong>{lang==='ar'?'احتفظ بالتأكيد':lang==='ml'?'സ്ഥിരീകരണം സൂക്ഷിക്കുക':'Keep your confirmation'}</strong><p>{lang==='ar'?'احتفظ برقم الطلب أو رسالة التأكيد عند توفرها.':lang==='ml'?'ലഭ്യമെങ്കിൽ അപേക്ഷാ നമ്പറോ സ്ഥിരീകരണ സന്ദേശമോ സൂക്ഷിക്കുക.':'Keep the reference number or confirmation message if one is provided.'}</p></li>
+    </ol>
+    <h2>{lang==='ar'?'الأسئلة الشائعة':lang==='ml'?'പതിവ് ചോദ്യങ്ങൾ':'Frequently asked questions'}</h2>
+    {faq.map(q=><details class="faq"><summary>{q}</summary><p>{t.disclaimer}</p></details>)}
+    <div class="notice"><strong>{lang==='ar'?'المصادر الرسمية':lang==='ml'?'ഔദ്യോഗിക ഉറവിടങ്ങൾ':'Official sources'}</strong><p>{lang==='ar'?'راجع الجهة الحكومية أو مزود الخدمة المعني للحصول على أحدث المعلومات.':lang==='ml'?'ഏറ്റവും പുതിയ വിവരങ്ങൾക്ക് ബന്ധപ്പെട്ട സർക്കാർ വകുപ്പിനെയോ സേവനദാതാവിനെയോ പരിശോധിക്കുക.':'Check the relevant government authority or service provider for the latest information.'}</p></div>
+  </article>
+  <aside class="article-sidebar"><div class="sidebar-card"><strong>{lang==='ar'?'استكشف المزيد':lang==='ml'?'കൂടുതൽ അറിയുക':'Explore more'}</strong><a href={`/${lang}/government/`}>{t.nav[2]}</a><a href={`/${lang}/gold-silver/`}>{t.nav[3]}</a><a href={`/${lang}/blog/`}>{t.nav[5]}</a></div><div class="sidebar-card"><strong>{lang==='ar'?'الأدوات':'Useful tools'}</strong><a href="/tools/">{lang==='ar'?'أسعار الذهب والحاسبات':lang==='ml'?'സ്വർണ്ണവിലയും കാൽക്കുലേറ്ററുകളും':'Gold rates & calculators'} ↗</a></div></aside>
+</div></main>
+<Footer t={t} lang={lang}/>
+</BaseLayout>

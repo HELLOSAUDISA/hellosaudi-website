@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'; import Header from '../../components/Header.astro'; import Footer from '../../components/Footer.astro'; import {locales} from '../../data/site.js';
+export function getStaticPaths(){return Object.keys(locales).map(lang=>({params:{lang},props:{t:locales[lang]}}));}
+const {t}=Astro.props; const lang=Astro.params.lang;
+---
+<BaseLayout title="Disclaimer | HelloSaudi" description="HelloSaudi information and price disclaimer." lang={lang} dir={t.dir}><Header lang={lang} t={t}/><main class="page-main"><div class="container narrow"><span class="eyebrow">IMPORTANT INFORMATION</span><h1>{lang==='ar'?'إخلاء المسؤولية':lang==='ml'?'നിരാകരണം':'Disclaimer'}</h1><p class="lead">{t.disclaimer}</p><h2>Government information</h2><p>Government rules, fees and procedures may change. Always confirm current requirements with the relevant Saudi government authority or official service provider.</p><h2>Market prices</h2><p>Gold, silver, currency and fuel information may be delayed, indicative or unavailable. Verify the source, timestamp and final price before relying on it.</p><h2>No professional advice</h2><p>Content is general information and is not legal, financial or professional advice.</p></div></main><Footer t={t} lang={lang}/></BaseLayout>

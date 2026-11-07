@@ -1,0 +1,26 @@
+---
+import { locales } from '../data/site.js';
+const { lang = 'en', t } = Astro.props;
+const nav = t.nav;
+const hrefs = [`/${lang}/`,`/${lang}/saudi-guide/`,`/${lang}/government/`,`/${lang}/gold-silver/`,`/${lang}/news/`,`/${lang}/blog/`];
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={`/${lang}/`} aria-label="HelloSaudi home">
+      <span class="brand-mark">H</span><span><strong>HelloSaudi</strong><small>SAUDI ARABIA GUIDE</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {nav.map((item,i)=><a class:list={[{active:i===0}]} href={hrefs[i]}>{item}</a>)}
+    </nav>
+    <div class="header-actions">
+      <div class="language-links" aria-label="Choose language">
+        {Object.values(locales).map(l=><a class:list={[{selected:l.code===lang}]} href={`/${l.code}/`} lang={l.code}>{l.label}</a>)}
+      </div>
+      <button class="menu-toggle" data-menu-toggle aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-nav" data-mobile-menu aria-label="Mobile navigation">
+    {nav.map((item,i)=><a href={hrefs[i]}>{item}</a>)}
+    <div class="mobile-languages">{Object.values(locales).map(l=><a href={`/${l.code}/`}>{l.label}</a>)}</div>
+  </nav>
+</header>

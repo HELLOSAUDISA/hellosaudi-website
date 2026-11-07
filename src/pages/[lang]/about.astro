@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'; import Header from '../../components/Header.astro'; import Footer from '../../components/Footer.astro'; import {locales} from '../../data/site.js';
+export function getStaticPaths(){return Object.keys(locales).map(lang=>({params:{lang},props:{t:locales[lang]}}));}
+const {t}=Astro.props; const lang=Astro.params.lang;
+---
+<BaseLayout title={`About HelloSaudi | HelloSaudi`} description={t.aboutText} lang={lang} dir={t.dir}><Header lang={lang} t={t}/><main class="page-main"><div class="container narrow"><span class="eyebrow">ABOUT US</span><h1>{t.about}</h1><p class="lead">{t.aboutText}</p><p>{t.disclaimer}</p><h2>Our purpose</h2><p>HelloSaudi brings practical Saudi guides, government service explainers, daily-life information and precious-metal tools together in one accessible multilingual destination.</p></div></main><Footer t={t} lang={lang}/></BaseLayout>
