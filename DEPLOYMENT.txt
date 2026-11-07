@@ -1,0 +1,31 @@
+HELLOSAUDI.SA – CLOUDFLARE PAGES DEPLOYMENT
+
+This is the Astro SOURCE project ZIP (not a precompiled dist upload).
+
+1. Extract this ZIP.
+2. Upload the extracted project folder to a new GitHub repository.
+3. In Cloudflare Dashboard, open Workers & Pages > Create > Pages > Connect to Git.
+4. Select the repository.
+5. Framework preset: Astro (or None if Astro preset is not offered).
+6. Build command: npm run build
+7. Build output directory: dist
+8. Deploy and test the *.pages.dev preview before changing production DNS.
+
+The build copies the original Cloudflare Pages advanced-mode Worker to dist/_worker.js.
+Do not deploy only the source files by drag-and-drop. Cloudflare must run the build command.
+
+Preserved legacy tools:
+https://your-preview-domain.pages.dev/tools/
+
+API endpoints:
+ /api/gold
+ /api/silver
+ /api/fx
+ /api/fuel
+
+Important:
+- The legacy dashboard is retained in its original English/Malayalam interface; Arabic is added to the new portal pages.
+- Verify permission to reuse the upstream rate data before public launch.
+- Complete the contact email and privacy policy.
+- Verify government article content and official links before publishing.
+- Test all APIs and tools in the Cloudflare preview.
