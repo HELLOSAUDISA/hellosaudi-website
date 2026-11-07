@@ -1,3 +1,4 @@
+
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
@@ -5,6 +6,7 @@ import Footer from '../../../components/Footer.astro';
 import ArticleCard from '../../../components/ArticleCard.astro';
 import { locales } from '../../../data/site.js';
 
+// Generate all language and section pages
 export function getStaticPaths() {
   const sections = [
     'saudi-guide',
@@ -19,7 +21,10 @@ export function getStaticPaths() {
 
   return Object.keys(locales).flatMap((lang) =>
     sections.map((section) => ({
-      params: { lang, section },
+      params: {
+        lang,
+        section
+      },
       props: {
         t: locales[lang],
         section,
@@ -28,37 +33,179 @@ export function getStaticPaths() {
     }))
   );
 }
-const {t,section,lang}=Astro.props;
-const isRates=section==='gold-silver';
+
+// Get page properties
+const { t, section, lang } = Astro.props;
+
+const isRates = section === 'gold-silver';
+
+// Section titles in English, Malayalam and Arabic
 const titles = {
-'en':{'saudi-guide':'Saudi Arabia Guide','government':'Government Services','iqama':'Iqama & Residency','visa-travel':'Visa & Travel','jobs-labour':'Jobs & Labour','living':'Living in Saudi Arabia','news':'Saudi News & Updates','gold-silver':'Gold & Silver Rates'},
-'ml':{'saudi-guide':'സൗദി അറേബ്യ ഗൈഡ്','government':'സർക്കാർ സേവനങ്ങൾ','iqama':'ഇഖാമ & താമസം','visa-travel':'വിസ & യാത്ര','jobs-labour':'ജോലി & തൊഴിൽ','living':'സൗദിയിലെ ജീവിതം','news':'സൗദി വാർത്തകളും അപ്‌ഡേറ്റുകളും','gold-silver':'സ്വർണ്ണം & വെള്ളി വില'},
-'ar':{'saudi-guide':'دليل السعودية','government':'الخدمات الحكومية','iqama':'الإقامة','visa-travel':'التأشيرات والسفر','jobs-labour':'الوظائف والعمل','living':'الحياة في السعودية','news':'أخبار السعودية','gold-silver':'أسعار الذهب والفضة'}
+  en: {
+    'saudi-guide': 'Saudi Arabia Guide',
+    government: 'Government Services',
+    iqama: 'Iqama & Residency',
+    'visa-travel': 'Visa & Travel',
+    'jobs-labour': 'Jobs & Labour',
+    living: 'Living in Saudi Arabia',
+    news: 'Saudi News & Updates',
+    'gold-silver': 'Gold & Silver Rates'
+  },
+
+  ml: {
+    'saudi-guide': 'സൗദി അറേബ്യ ഗൈഡ്',
+    government: 'സർക്കാർ സേവനങ്ങൾ',
+    iqama: 'ഇഖാമ & താമസം',
+    'visa-travel': 'വിസ & യാത്ര',
+    'jobs-labour': 'ജോലി & തൊഴിൽ',
+    living: 'സൗദിയിലെ ജീവിതം',
+    news: 'സൗദി വാർത്തകളും അപ്‌ഡേറ്റുകളും',
+    'gold-silver': 'സ്വർണ്ണം & വെള്ളി വില'
+  },
+
+  ar: {
+    'saudi-guide': 'دليل السعودية',
+    government: 'الخدمات الحكومية',
+    iqama: 'الإقامة',
+    'visa-travel': 'التأشيرات والسفر',
+    'jobs-labour': 'الوظائف والعمل',
+    living: 'الحياة في السعودية',
+    news: 'أخبار السعودية',
+    'gold-silver': 'أسعار الذهب والفضة'
+  }
 };
-const title=titles[lang][section] || t.nav[1];
-const articles=t.articles.filter(a=>section==='saudi-guide'||section==='government'||a[2]===section||(section==='news'&&a[2]==='government'));
+
+const title = titles[lang]?.[section] || t.nav[1];
+
+// Filter articles by section
+const articles = t.articles.filter((a) =>
+  section === 'saudi-guide' ||
+  section === 'government' ||
+  a[2] === section ||
+  (section === 'news' && a[2] === 'government')
+);
 ---
-<BaseLayout title={`${title} | HelloSaudi`} description={`${title} – HelloSaudi practical information and guides.`} lang={lang} dir={t.dir}>
-<Header lang={lang} t={t}/>
-<main class="page-main"><div class="container">
-  <div class="page-intro"><span class="eyebrow">HELLOSAUDI / {section.toUpperCase()}</span><h1>{title}</h1><p>{isRates?t.ratesText:t.heroText}</p></div>
-  {isRates ? (
-    <>
-    <div class="rate-tool-banner"><div><span class="eyebrow">SAUDI RIYAL · SAR</span><h2>{t.rates}</h2><p>{lang==='ar'?'أسعار الذهب والفضة والأدوات الحسابية':lang==='ml'?'സ്വർണ്ണം, വെള്ളി വിലകളും കാൽക്കുലേറ്ററുകളും':'Gold, silver, market tools and calculators.'}</p></div><a class="button" href="/tools/">{lang==='ar'?'فتح جميع الأدوات':lang==='ml'?'എല്ലാ ടൂളുകളും തുറക്കുക':'Open all tools'} ↗</a></div>
-    <div class="rate-feature-grid">
-      <a class="rate-feature" href="/tools/#gold"><span class="rate-icon">Au</span><h3>Gold rates</h3><p>24K · 22K · 21K · 18K</p><b>Open gold dashboard →</b></a>
-      <a class="rate-feature" href="/tools/#silver"><span class="rate-icon silver">Ag</span><h3>Silver rates</h3><p>999 · 958 · 925 · 800</p><b>Open silver dashboard →</b></a>
-      <a class="rate-feature" href="/tools/#currency"><span class="rate-icon currency">↔</span><h3>Currency rates</h3><p>SAR exchange rates</p><b>Open converter →</b></a>
-      <a class="rate-feature" href="/tools/#fuel"><span class="rate-icon fuel">⛽</span><h3>Fuel prices</h3><p>Petrol · Diesel · LPG</p><b>Open fuel tools →</b></a>
+
+<BaseLayout
+  title={`${title} | HelloSaudi`}
+  description={`${title} – HelloSaudi practical information and guides.`}
+  lang={lang}
+  dir={t.dir}
+>
+  <Header lang={lang} t={t} />
+
+  <main class="page-main">
+    <div class="container">
+
+      <div class="page-intro">
+        <span class="eyebrow">
+          HELLOSAUDI / {section.toUpperCase()}
+        </span>
+
+        <h1>{title}</h1>
+
+        <p>
+          {isRates ? t.ratesText : t.heroText}
+        </p>
+      </div>
+
+      {isRates ? (
+        <>
+          <div class="rate-tool-banner">
+
+            <div>
+              <span class="eyebrow">
+                SAUDI RIYAL · SAR
+              </span>
+
+              <h2>{t.rates}</h2>
+
+              <p>
+                {lang === 'ar'
+                  ? 'أسعار الذهب والفضة والأدوات الحسابية'
+                  : lang === 'ml'
+                    ? 'സ്വർണ്ണം, വെള്ളി വിലകളും കാൽക്കുലേറ്ററുകളും'
+                    : 'Gold, silver, market tools and calculators.'}
+              </p>
+            </div>
+
+            <a class="button" href="/tools/">
+              {lang === 'ar'
+                ? 'فتح جميع الأدوات'
+                : lang === 'ml'
+                  ? 'എല്ലാ ടൂളുകളും തുറക്കുക'
+                  : 'Open all tools'} ↗
+            </a>
+
+          </div>
+
+          <div class="rate-feature-grid">
+
+            <a class="rate-feature" href="/tools/#gold">
+              <span class="rate-icon">Au</span>
+              <h3>Gold rates</h3>
+              <p>24K · 22K · 21K · 18K</p>
+              <b>Open gold dashboard →</b>
+            </a>
+
+            <a class="rate-feature" href="/tools/#silver">
+              <span class="rate-icon silver">Ag</span>
+              <h3>Silver rates</h3>
+              <p>999 · 958 · 925 · 800</p>
+              <b>Open silver dashboard →</b>
+            </a>
+
+            <a class="rate-feature" href="/tools/#currency">
+              <span class="rate-icon currency">↔</span>
+              <h3>Currency rates</h3>
+              <p>SAR exchange rates</p>
+              <b>Open converter →</b>
+            </a>
+
+            <a class="rate-feature" href="/tools/#fuel">
+              <span class="rate-icon fuel">⛽</span>
+              <h3>Fuel prices</h3>
+              <p>Petrol · Diesel · LPG</p>
+              <b>Open fuel tools →</b>
+            </a>
+
+          </div>
+
+          <div class="notice">
+            <strong>Price information</strong>
+
+            <p>
+              {t.disclaimer}
+              Market rates can change. Check the timestamp
+              and original source before making a purchase decision.
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          <div class="article-grid">
+            {articles.map((a) => (
+              <ArticleCard article={a} lang={lang} />
+            ))}
+          </div>
+
+          <div class="notice">
+            <strong>
+              {lang === 'ar'
+                ? 'تنبيه'
+                : lang === 'ml'
+                  ? 'ശ്രദ്ധിക്കുക'
+                  : 'Please note'}
+            </strong>
+
+            <p>{t.disclaimer}</p>
+          </div>
+        </>
+      )}
+
     </div>
-    <div class="notice"><strong>Price information</strong><p>{t.disclaimer} Market rates can change. Check the timestamp and original source before making a purchase decision.</p></div>
-    </>
-  ) : (
-    <>
-    <div class="article-grid">{articles.map(a=><ArticleCard article={a} lang={lang}/>)}</div>
-    <div class="notice"><strong>{lang==='ar'?'تنبيه':lang==='ml'?'ശ്രദ്ധിക്കുക':'Please note'}</strong><p>{t.disclaimer}</p></div>
-    </>
-  )}
-</div></main>
-<Footer t={t} lang={lang}/>
+  </main>
+
+  <Footer t={t} lang={lang} />
+
 </BaseLayout>
