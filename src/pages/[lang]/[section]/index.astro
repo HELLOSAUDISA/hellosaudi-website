@@ -4,8 +4,30 @@ import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import ArticleCard from '../../../components/ArticleCard.astro';
 import { locales } from '../../../data/site.js';
-const sections=['saudi-guide','government','iqama','visa-travel','jobs-labour','living','news','gold-silver'];
-export function getStaticPaths(){return Object.keys(locales).flatMap(lang=>sections.map(section=>({params:{lang,section},props:{t:locales[lang],section,lang}})));}
+
+export function getStaticPaths() {
+  const sections = [
+    'saudi-guide',
+    'government',
+    'iqama',
+    'visa-travel',
+    'jobs-labour',
+    'living',
+    'news',
+    'gold-silver'
+  ];
+
+  return Object.keys(locales).flatMap((lang) =>
+    sections.map((section) => ({
+      params: { lang, section },
+      props: {
+        t: locales[lang],
+        section,
+        lang
+      }
+    }))
+  );
+}
 const {t,section,lang}=Astro.props;
 const isRates=section==='gold-silver';
 const titles = {
